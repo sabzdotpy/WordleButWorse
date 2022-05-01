@@ -1,0 +1,71 @@
+$primary-color: #282c34;
+
+.keyboard_container {
+	padding: .7rem 2rem;
+	margin: 0 auto;
+	background-color: lighten($color: $primary-color, $amount: 8);
+	border-radius: 10px;
+    margin-bottom: 10px;
+	display: flex;
+    align-items: center;
+	flex-wrap: wrap;
+	flex-direction: column;
+	gap: 0.5rem;
+
+	.keyboard_row {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		gap: 0.3rem;
+
+		.keyboard_key {
+			background-color: lighten($color: $primary-color, $amount: 20);
+            color: aliceblue;
+			border-radius: 5px;
+			padding: 15px 15px;
+			cursor: pointer;
+		}
+
+        .keyboard_key:hover {
+			background-color: lighten($color: $primary-color, $amount: 30);
+		}
+
+		.keyboard_key:focus {
+			background-color: lighten($color: $primary-color, $amount: 30);
+		}
+	}
+}
+
+@media screen and (max-width: 400px) {
+    .keyboard_container {
+        width: 90%;
+        padding: 0.5rem 1rem;
+        margin: 0 auto;
+        background-color: lighten($color: $primary-color, $amount: 8);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 0.5rem;
+    
+        .keyboard_row {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 0.3rem;
+    
+            .keyboard_key {
+                background-color: lighten($color: $primary-color, $amount: 20);
+                color: aliceblue;
+                border-radius: 5px;
+                padding: 3% 3%;
+                cursor: pointer;
+            }
+    
+            .keyboard_key:focus {
+                background-color: lighten($color: $primary-color, $amount: 30);
+            }
+        }
+    }
+}
