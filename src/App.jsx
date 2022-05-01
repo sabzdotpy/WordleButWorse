@@ -295,7 +295,7 @@ function App() {
 			</div>
 
 			<main className="app-main">
-				<div className="app-header" onClick={fire}>
+				<div className="app-header">
 					<i>
 						Made by{" "}
 						<a

@@ -8,3 +8,5 @@ public
 .firebase
 *.firebasesrc
 firebase.json
+backup_local
+
