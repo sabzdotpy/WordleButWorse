@@ -9,4 +9,7 @@ public
 *.firebasesrc
 firebase.json
 backup_local
+pwa.js
+robots.txt
+.firebasesrc
 
