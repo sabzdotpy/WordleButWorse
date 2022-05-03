@@ -54,26 +54,32 @@ function App() {
 		document.querySelector(".detailed_message").classList.remove("show");
 	};
 
+	function waitforme(ms)  {
+		return new Promise( resolve => { setTimeout(resolve, ms); });
+	  }
+
 	const handleKeyPress = (event) => {
 		if (event.key === "Backspace") {
 			if (gameWon === "not yet") {
 				if (currentColumn === 0) {
-					document.querySelector(`.tile${currentRow}${currentColumn}`).textContent = "";
+					document.querySelector(
+						`.tile${currentRow}${currentColumn}`
+					).textContent = "";
 					return;
-
 				} else if (currentColumn > 0) {
-					if (document.querySelector(`.tile${currentRow}${currentColumn}`).textContent) {
+					if (
+						document.querySelector(
+							`.tile${currentRow}${currentColumn}`
+						).textContent
+					) {
 						document.querySelector(
 							`.tile${currentRow}${currentColumn}`
 						).textContent = "";
-					}
-					else {
+					} else {
 						setCurrentColumn(currentColumn - 1);
 					}
 					return;
 				}
-
-
 			}
 		} else if ("abcdefghijklmnopqrstuvwxyz".includes(event.key)) {
 			if (gameWon === "not yet") {
@@ -95,67 +101,47 @@ function App() {
 					const letters_array = [];
 					for (let i = 0; i < 5; i++) {
 						letters_array.push(
-							document.querySelector(`.tile${currentRow}${i}`)
+							document
+								.querySelector(`.tile${currentRow}${i}`)
 								.textContent.toLowerCase()
 						);
 					}
 
-					let [
-						correct_indices,
-						missed_indices,
-						wrong_indices,
-						error,
-					] = checkAnswer([...correctWord], letters_array);
+					let [indications, error] = checkAnswer(
+						[...correctWord],
+						letters_array
+					);
+					console.log(indications)
 
 					if (error) {
 						showMessage(error);
 						return;
 					}
 
-					// console.log(correct_indices, missed_indices, wrong_indices);
+					for (let i = 0; i < indications.length; i++) {
+						// setTimeout(() => {
 
-					for (let i of correct_indices) {
-						document.querySelector(
-							`.tile${currentRow}${i}`
-						).style.backgroundColor = "#3d8b34";
-						document.querySelector(
-							`.tile${currentRow}${i}`
-						).style.borderColor = "transparent";
-						document.querySelector(
-							`.key${letters_array[i]}`
-						).style.backgroundColor = "#3d8b34";
+							(function(i) {
+								setTimeout(function() { 
+									document.querySelector(
+										`.tile${currentRow}${i}`
+									).style.backgroundColor = indications[i] === "g" ? "#3d8b34" : indications[i] === "y" ? "#9b9715" : "#8d3333"
+									
+									document.querySelector(
+										`.tile${currentRow}${i}`
+									).style.borderColor = indications[i] === "g" ? "#3d8b34" : indications[i] === "y" ? "#9b9715" : "#8d3333"
+								
+									console.log(`tile${i}`) 
+								}, 200 * i);
+							})(i);
+
+							
+						// }, 1000)
+						
+
 					}
 
-					for (let i of missed_indices) {
-						document.querySelector(
-							`.tile${currentRow}${i}`
-						).style.backgroundColor = "#9b9715";
-						document.querySelector(
-							`.tile${currentRow}${i}`
-						).style.borderColor = "transparent";
-						document.querySelector(
-							`.key${letters_array[i]}`
-						).style.backgroundColor = "#9b9715";
-					}
-
-					for (let i of wrong_indices) {
-						document.querySelector(
-							`.tile${currentRow}${i}`
-						).style.backgroundColor = "#8d3333";
-						document.querySelector(
-							`.tile${currentRow}${i}`
-						).style.borderColor = "transparent";
-						document.querySelector(
-							`.key${letters_array[i]}`
-						).style.backgroundColor = "#8d3333";
-					}
-
-					if (
-						correct_indices.length === 5 &&
-						missed_indices == false &&
-						wrong_indices == false
-					) {
-						console.log("%c You won!", "background-color: green");
+					if (indications.join("") === "ggggg") {
 						setTimeout(() => {
 							document.querySelector(".word_label").textContent =
 								correctWord;
@@ -169,8 +155,9 @@ function App() {
 							setGameWon(true);
 							fire();
 							return;
-						}, 1000);
-					} else if (correct_indices.length != 5 && currentRow == 5) {
+
+						}, 1500);
+					} else if (indications.join("") != "ggggg" && currentRow == 5) {
 						setTimeout(() => {
 							setGameWon(false);
 							document.querySelector(".word_label").textContent =
@@ -182,7 +169,7 @@ function App() {
 								".word_link_open"
 							).textContent = correctWord;
 							showDetailedMessage("lose");
-						}, 1000);
+						}, 1500);
 					} else {
 						setCurrentRow(currentRow + 1);
 						setCurrentColumn(0);
@@ -329,8 +316,10 @@ function App() {
 					})}
 				</div>
 
-				<Keyboard className="keyboard" clickEventHandle={handleKeyPress} />
-
+				<Keyboard
+					className="keyboard"
+					clickEventHandle={handleKeyPress}
+				/>
 			</main>
 		</div>
 	);
