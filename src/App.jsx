@@ -118,7 +118,6 @@ function App() {
 					}
 
 					for (let i = 0; i < indications.length; i++) {
-						// console.log(`Iteration ${i} - C letters: ${correctLetters}`)
 
 						(function (i) {
 							setTimeout(() => {
@@ -140,8 +139,6 @@ function App() {
 										? "#9b9715"
 										: "#8d3333";
 
-								// if (! (correctLetters.includes(letters_array[i]))) {
-								// 	console.log(`array contains no ${letters_array[i]}`)
 								document.querySelector(
 									`.keyboard_key.key${letters_array[i]}`
 								).style.backgroundColor =
@@ -151,10 +148,6 @@ function App() {
 										? "#9b9715"
 										: "#8d3333";
 
-								// if (indications[i] === "g") {
-								// setCorrectLetters(correctLetters + letters_array[i])
-								// }
-								// }
 							}, 200 * i);
 						})(i);
 					}
@@ -171,7 +164,6 @@ function App() {
 							).textContent = correctWord;
 							showDetailedMessage("win");
 							setGameWon(true);
-							setCorrectLetters("");
 							fire();
 							return;
 						}, 1500);
@@ -191,7 +183,6 @@ function App() {
 							).textContent = correctWord;
 							showDetailedMessage("lose");
 						}, 1500);
-						setCorrectLetters("");
 					} else {
 						setCurrentRow(currentRow + 1);
 						setCurrentColumn(0);
