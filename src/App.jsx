@@ -4,8 +4,8 @@ import ReactCanvasConfetti from "react-canvas-confetti";
 import "./App.scss";
 import Keyboard from "./Components/Keyboard/Keyboard";
 import { getRandomWord, checkAnswer } from "./functions";
-import NYTimesLogo from "./Images/nytimes-logo.png"
-import GithubLogo from "./Images/github-logo.png"
+import NYTimesLogo from "./Images/nytimes-logo.png";
+import GithubLogo from "./Images/github-logo.png";
 
 const canvasStyles = {
 	position: "fixed",
@@ -18,19 +18,19 @@ const canvasStyles = {
 };
 
 function App() {
-	let tiles = [];
 	const [currentRow, setCurrentRow] = useState(0);
 	const [currentColumn, setCurrentColumn] = useState(0);
 	const [correctWord, setCorrectWord] = useState("balls");
 	const [gameWon, setGameWon] = useState("not yet");
 
-	const [correctLetters, setCorrectLetters] = useState("")
-
-	for (let i = 0; i < 6; i++) {
-		for (let j = 0; j < 5; j++) {
-			tiles.push(`${i}-${j}`);
-		}
-	}
+	const [tiles] = useState([
+		"0-0", "0-1", "0-2", "0-3", "0-4",
+		"1-0", "1-1", "1-2", "1-3", "1-4",
+		"2-0", "2-1", "2-2", "2-3", "2-4", 
+		"3-0", "3-1", "3-2", "3-3", "3-4",
+		"4-0", "4-1", "4-2", "4-3", "4-4",
+		"5-0", "5-1", "5-2", "5-3", "5-4",
+	]);
 
 	const showMessage = (message) => {
 		document.querySelector(".message").textContent = message;
@@ -57,7 +57,6 @@ function App() {
 	const hideDetailedMessage = () => {
 		document.querySelector(".detailed_message").classList.remove("show");
 	};
-
 
 	const handleKeyPress = (event) => {
 		if (event.key === "Backspace") {
@@ -112,39 +111,52 @@ function App() {
 						[...correctWord],
 						letters_array
 					);
-					
+
 					if (error) {
 						showMessage(error);
 						return;
 					}
 
 					for (let i = 0; i < indications.length; i++) {
-
 						// console.log(`Iteration ${i} - C letters: ${correctLetters}`)
-							
-						(function(i) {
-								setTimeout( () => {
-									
-									document.querySelector(
-										`.tile${currentRow}${i}`
-									).style.backgroundColor = indications[i] === "g" ? "#3d8b34" : indications[i] === "y" ? "#9b9715" : "#8d3333"
-									
-									document.querySelector(
-										`.tile${currentRow}${i}`
-									).style.borderColor = indications[i] === "g" ? "#3d8b34" : indications[i] === "y" ? "#9b9715" : "#8d3333"
-									
-									
-									// if (! (correctLetters.includes(letters_array[i]))) {
-									// 	console.log(`array contains no ${letters_array[i]}`)
-										document.querySelector(`.keyboard_key.key${letters_array[i]}`).style.backgroundColor = indications[i] === "g" ? "#3d8b34" : indications[i] === "y" ? "#9b9715" : "#8d3333"	
-										
-										// if (indications[i] === "g") {
-											// setCorrectLetters(correctLetters + letters_array[i])
-										// }
-									// }
-								}, 200 * i);
-							})(i);
 
+						(function (i) {
+							setTimeout(() => {
+								document.querySelector(
+									`.tile${currentRow}${i}`
+								).style.backgroundColor =
+									indications[i] === "g"
+										? "#3d8b34"
+										: indications[i] === "y"
+										? "#9b9715"
+										: "#8d3333";
+
+								document.querySelector(
+									`.tile${currentRow}${i}`
+								).style.borderColor =
+									indications[i] === "g"
+										? "#3d8b34"
+										: indications[i] === "y"
+										? "#9b9715"
+										: "#8d3333";
+
+								// if (! (correctLetters.includes(letters_array[i]))) {
+								// 	console.log(`array contains no ${letters_array[i]}`)
+								document.querySelector(
+									`.keyboard_key.key${letters_array[i]}`
+								).style.backgroundColor =
+									indications[i] === "g"
+										? "#3d8b34"
+										: indications[i] === "y"
+										? "#9b9715"
+										: "#8d3333";
+
+								// if (indications[i] === "g") {
+								// setCorrectLetters(correctLetters + letters_array[i])
+								// }
+								// }
+							}, 200 * i);
+						})(i);
 					}
 
 					if (indications.join("") === "ggggg") {
@@ -159,12 +171,14 @@ function App() {
 							).textContent = correctWord;
 							showDetailedMessage("win");
 							setGameWon(true);
-							setCorrectLetters("")
+							setCorrectLetters("");
 							fire();
 							return;
-
 						}, 1500);
-					} else if (indications.join("") != "ggggg" && currentRow == 5) {
+					} else if (
+						indications.join("") != "ggggg" &&
+						currentRow == 5
+					) {
 						setTimeout(() => {
 							setGameWon(false);
 							document.querySelector(".word_label").textContent =
@@ -177,7 +191,7 @@ function App() {
 							).textContent = correctWord;
 							showDetailedMessage("lose");
 						}, 1500);
-						setCorrectLetters("")
+						setCorrectLetters("");
 					} else {
 						setCurrentRow(currentRow + 1);
 						setCurrentColumn(0);
@@ -292,9 +306,36 @@ function App() {
 			<main className="app-main">
 				<div className="app-header">
 					<i>
-						<a href="https://www.nytimes.com/games/wordle/index.html" target="_blank" className="logo nytimes-logo" title="Play the original Wordle" ><img src={NYTimesLogo} alt="nytimes" /></a>
-						<i className="Wordle">Wordle Ripoff by <a href="https://www.github.com/sabzdotpy" target="_blank" className="app-link" >Sabz</a></i>
-						<a href="https://www.github.com/sabzdotpy/WordleButWorse" target="_blank" className="logo github-logo"> <img src={GithubLogo} alt="github" title="source code?" /> </a>
+						<a
+							href="https://www.nytimes.com/games/wordle/index.html"
+							target="_blank"
+							className="logo nytimes-logo"
+							title="Play the original Wordle"
+						>
+							<img src={NYTimesLogo} alt="nytimes" />
+						</a>
+						<i className="Wordle">
+							Wordle Ripoff by{" "}
+							<a
+								href="https://www.github.com/sabzdotpy"
+								target="_blank"
+								className="app-link"
+							>
+								Sabz
+							</a>
+						</i>
+						<a
+							href="https://www.github.com/sabzdotpy/WordleButWorse"
+							target="_blank"
+							className="logo github-logo"
+						>
+							{" "}
+							<img
+								src={GithubLogo}
+								alt="github"
+								title="source code?"
+							/>{" "}
+						</a>
 					</i>
 				</div>
 
