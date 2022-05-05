@@ -4,6 +4,8 @@ import ReactCanvasConfetti from "react-canvas-confetti";
 import "./App.scss";
 import Keyboard from "./Components/Keyboard/Keyboard";
 import { getRandomWord, checkAnswer } from "./functions";
+import NYTimesLogo from "./Images/nytimes-logo.png"
+import GithubLogo from "./Images/github-logo.png"
 
 const canvasStyles = {
 	position: "fixed",
@@ -21,6 +23,8 @@ function App() {
 	const [currentColumn, setCurrentColumn] = useState(0);
 	const [correctWord, setCorrectWord] = useState("balls");
 	const [gameWon, setGameWon] = useState("not yet");
+
+	const [correctLetters, setCorrectLetters] = useState("")
 
 	for (let i = 0; i < 6; i++) {
 		for (let j = 0; j < 5; j++) {
@@ -54,9 +58,6 @@ function App() {
 		document.querySelector(".detailed_message").classList.remove("show");
 	};
 
-	function waitforme(ms)  {
-		return new Promise( resolve => { setTimeout(resolve, ms); });
-	  }
 
 	const handleKeyPress = (event) => {
 		if (event.key === "Backspace") {
@@ -111,18 +112,19 @@ function App() {
 						[...correctWord],
 						letters_array
 					);
-					console.log(indications)
-
+					
 					if (error) {
 						showMessage(error);
 						return;
 					}
 
 					for (let i = 0; i < indications.length; i++) {
-						// setTimeout(() => {
 
-							(function(i) {
-								setTimeout(function() { 
+						// console.log(`Iteration ${i} - C letters: ${correctLetters}`)
+							
+						(function(i) {
+								setTimeout( () => {
+									
 									document.querySelector(
 										`.tile${currentRow}${i}`
 									).style.backgroundColor = indications[i] === "g" ? "#3d8b34" : indications[i] === "y" ? "#9b9715" : "#8d3333"
@@ -130,14 +132,18 @@ function App() {
 									document.querySelector(
 										`.tile${currentRow}${i}`
 									).style.borderColor = indications[i] === "g" ? "#3d8b34" : indications[i] === "y" ? "#9b9715" : "#8d3333"
-								
-									console.log(`tile${i}`) 
+									
+									
+									// if (! (correctLetters.includes(letters_array[i]))) {
+									// 	console.log(`array contains no ${letters_array[i]}`)
+										document.querySelector(`.keyboard_key.key${letters_array[i]}`).style.backgroundColor = indications[i] === "g" ? "#3d8b34" : indications[i] === "y" ? "#9b9715" : "#8d3333"	
+										
+										// if (indications[i] === "g") {
+											// setCorrectLetters(correctLetters + letters_array[i])
+										// }
+									// }
 								}, 200 * i);
 							})(i);
-
-							
-						// }, 1000)
-						
 
 					}
 
@@ -153,6 +159,7 @@ function App() {
 							).textContent = correctWord;
 							showDetailedMessage("win");
 							setGameWon(true);
+							setCorrectLetters("")
 							fire();
 							return;
 
@@ -170,6 +177,7 @@ function App() {
 							).textContent = correctWord;
 							showDetailedMessage("lose");
 						}, 1500);
+						setCorrectLetters("")
 					} else {
 						setCurrentRow(currentRow + 1);
 						setCurrentColumn(0);
@@ -284,21 +292,16 @@ function App() {
 			<main className="app-main">
 				<div className="app-header">
 					<i>
-						Made by{" "}
-						<a
-							className="app-link"
-							href="https://www.github.com/sabzdotpy"
-							target="_blank"
-						>
-							sabz
-						</a>
+						<a href="https://www.nytimes.com/games/wordle/index.html" target="_blank" className="logo nytimes-logo" title="Play the original Wordle" ><img src={NYTimesLogo} alt="nytimes" /></a>
+						<i className="Wordle">Wordle Ripoff by <a href="https://www.github.com/sabzdotpy" target="_blank" className="app-link" >Sabz</a></i>
+						<a href="https://www.github.com/sabzdotpy/WordleButWorse" target="_blank" className="logo github-logo"> <img src={GithubLogo} alt="github" title="source code?" /> </a>
 					</i>
 				</div>
 
 				<div className="tiles-container">
 					{tiles.map((val, i) => {
 						return (
-							<div
+							<button
 								className={
 									"tile tile" +
 									val[0] +
@@ -311,7 +314,7 @@ function App() {
 								tabIndex="0"
 							>
 								{""}
-							</div>
+							</button>
 						);
 					})}
 				</div>

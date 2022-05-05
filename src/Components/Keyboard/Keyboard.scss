@@ -19,6 +19,7 @@ $primary-color: #282c34;
 		gap: 0.3rem;
 
 		.keyboard_key {
+            border-style: none;
 			background-color: lighten($color: $primary-color, $amount: 20);
             color: aliceblue;
 			border-radius: 5px;
@@ -56,6 +57,7 @@ $primary-color: #282c34;
             gap: 0.3rem;
     
             .keyboard_key {
+                border-style: none;
                 background-color: lighten($color: $primary-color, $amount: 20);
                 color: aliceblue;
                 border-radius: 5px;
