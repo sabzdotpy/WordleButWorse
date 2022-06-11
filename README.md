@@ -8,5 +8,5 @@
 
 ---
 
-A clone of the popular internet game Wordle.  
+A clone of the popular internet game <a href="https://www.nytimes.com/games/wordle/index.html">Wordle.</a>   
 Made with ReactJS.
